@@ -1,0 +1,13 @@
+# Core audio processing
+demucs>=4.0.0
+librosa>=0.10.0
+soundfile>=0.12.1
+numpy>=1.24.0
+scipy>=1.11.0
+
+# Audio file support
+audioread>=3.0.0
+resampy>=0.4.2
+
+# Utilities
+tqdm>=4.65.0
