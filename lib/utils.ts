@@ -1,11 +1,14 @@
 import path from 'path'
 import fs from 'fs'
 
+export const IS_VERCEL = process.env.VERCEL === '1' || process.env.VERCEL_ENV !== undefined
+
 export const UPLOADS_DIR = path.join(process.cwd(), 'uploads', 'originals')
 export const STEMS_DIR = path.join(process.cwd(), 'uploads', 'stems')
 export const TEMP_DIR = path.join(process.cwd(), 'uploads', 'temp')
 
 export function ensureDirs() {
+  if (IS_VERCEL) return // read-only filesystem on Vercel, skip
   ;[UPLOADS_DIR, STEMS_DIR, TEMP_DIR].forEach((dir) => {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
   })
@@ -13,7 +16,7 @@ export function ensureDirs() {
 
 export function getSongStemsDir(songId: string): string {
   const dir = path.join(STEMS_DIR, songId)
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
+  if (!IS_VERCEL && !fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
   return dir
 }
 

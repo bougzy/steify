@@ -173,8 +173,15 @@ export default function HomePage() {
           )}
 
           {error && (
-            <div className="mt-4 p-3 rounded-lg text-sm text-red-400 bg-red-400/10 border border-red-400/20">
-              {error}
+            <div className="mt-4 p-4 rounded-lg text-sm bg-red-400/10 border border-red-400/20">
+              <p className="text-red-400 font-semibold mb-1">Upload Failed</p>
+              <p className="text-red-300/80">{error}</p>
+              {error.includes('local') && (
+                <p className="text-text-muted text-xs mt-2">
+                  Run <code className="bg-white/10 px-1 rounded">npm run dev</code> on your machine and open{' '}
+                  <code className="bg-white/10 px-1 rounded">http://localhost:3000</code>
+                </p>
+              )}
             </div>
           )}
 
