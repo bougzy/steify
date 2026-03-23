@@ -4,25 +4,12 @@ import fs from 'fs'
 import { v4 as uuidv4 } from 'uuid'
 import connectDB from '@/lib/mongodb'
 import Song from '@/lib/models/Song'
-import { UPLOADS_DIR, ensureDirs, IS_VERCEL } from '@/lib/utils'
+import { UPLOADS_DIR, ensureDirs } from '@/lib/utils'
 
 export const runtime = 'nodejs'
 export const maxDuration = 60
 
 export async function POST(req: NextRequest) {
-  // Vercel serverless has a read-only filesystem — file processing requires local deployment
-  if (IS_VERCEL) {
-    return NextResponse.json(
-      {
-        error:
-          'Stemify requires a local deployment to process audio files. ' +
-          'Vercel\'s serverless environment does not support file storage or Python audio processing. ' +
-          'Please run this app locally with: npm run dev',
-      },
-      { status: 503 }
-    )
-  }
-
   try {
     ensureDirs()
     await connectDB()
