@@ -1,14 +1,15 @@
 import path from 'path'
 import fs from 'fs'
 
-export const IS_VERCEL = process.env.VERCEL === '1' || process.env.VERCEL_ENV !== undefined
+// Only true when actually deployed on Vercel servers
+export const IS_VERCEL = process.env.VERCEL === '1'
 
 export const UPLOADS_DIR = path.join(process.cwd(), 'uploads', 'originals')
 export const STEMS_DIR = path.join(process.cwd(), 'uploads', 'stems')
 export const TEMP_DIR = path.join(process.cwd(), 'uploads', 'temp')
 
 export function ensureDirs() {
-  if (IS_VERCEL) return // read-only filesystem on Vercel, skip
+  if (IS_VERCEL) return
   ;[UPLOADS_DIR, STEMS_DIR, TEMP_DIR].forEach((dir) => {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
   })
